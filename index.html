@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>JEE 2026 😎</title>
+  <style>
+    :root {
+      --bg-color: #f4f6f9;
+      --text-color: #0d1b2a;
+      --card-bg: #fff;
+      --highlight-color: #00a8e8;
+    }
+
+    body.dark {
+      --bg-color: #121212;
+      --text-color: #ffffff;
+      --card-bg: #1e1e1e;
+      --highlight-color: #00e8a6;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      padding-bottom: 80px;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    .header {
+      background: var(--text-color);
+      color: white;
+      padding: 15px;
+      text-align: center;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    }
+
+    .toggle-mode {
+      margin-right: 10px;
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    .content {
+      padding: 80px 20px 20px;
+    }
+
+    .section {
+      display: none;
+      animation: fadeIn 0.4s ease-in-out;
+    }
+
+    .section.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .card-btn {
+      background: var(--card-bg);
+      border-radius: 12px;
+      padding: 14px;
+      margin: 8px 0;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.08);
+      text-align: center;
+      font-weight: bold;
+      color: var(--text-color);
+      cursor: pointer;
+      transition: transform 0.2s, background 0.3s;
+    }
+
+    .card-btn:hover {
+      transform: scale(1.02);
+      background: var(--highlight-color);
+      color: white;
+    }
+
+    .btn {
+      background: var(--highlight-color);
+      color: white;
+      padding: 12px;
+      margin-top: 20px;
+      width: 100%;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      background: var(--card-bg);
+      display: flex;
+      justify-content: space-around;
+      border-top: 1px solid #ccc;
+      padding: 10px 0;
+      z-index: 1000;
+    }
+
+    .nav-item {
+      font-size: 14px;
+      color: var(--text-color);
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .nav-item.active {
+      color: var(--highlight-color);
+      font-weight: bold;
+    }
+
+    .chapter-list {
+      margin-left: 10px;
+      padding-left: 10px;
+      border-left: 2px solid var(--highlight-color);
+    }
+
+    .chapter-list .card-btn {
+      background: #e0f7fa;
+      color: #004d40;
+    }
+
+    .chapter-list .card-btn:hover {
+      background: #00a8e8;
+      color: white;
+    }
+
+    .toggle-section {
+      font-size: 18px;
+      font-weight: bold;
+      margin-top: 20px;
+      cursor: pointer;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    input[type="text"] {
+      padding: 8px;
+      width: 100%;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h2>JEE 2026 😎</h2>
+    <div class="toggle-mode" onclick="toggleMode()">🌓</div>
+  </div>
+
+  <div class="content">
+    <!-- Subjects -->
+    <div id="subjects" class="section active">
+      <h3>Subjects</h3>
+
+      <div class="toggle-section" onclick="toggleChapter('physics')">📘 Physics</div>
+      <div id="physics" class="chapter-list hidden">
+        <div class="card-btn" onclick="openLink('https://t.me/jee2026pwbatch/3')">Electrostatics - Lecture 1</div>
+      </div>
+
+      <div class="toggle-section" onclick="toggleChapter('math')">📐 Math</div>
+      <div id="math" class="chapter-list hidden">
+        <div class="card-btn" onclick="openLink('https://t.me/jee2026pwbatch/4')">Determinants - Lecture 1</div>
+      </div>
+
+      <div class="toggle-section" onclick="toggleChapter('physical')">⚗️ Physical Chemistry</div>
+      <div id="physical" class="chapter-list hidden">
+        <div class="card-btn" onclick="openLink('https://t.me/jee2026pwbatch/5')">Solutions - Lecture 1</div>
+      </div>
+
+      <div class="toggle-section" onclick="toggleChapter('organic')">🧪 Organic Chemistry</div>
+      <div id="organic" class="chapter-list hidden">
+        <div class="card-btn">Coming Soon</div>
+      </div>
+
+      <div class="toggle-section" onclick="toggleChapter('inorganic')">🔬 Inorganic Chemistry</div>
+      <div id="inorganic" class="chapter-list hidden">
+        <div class="card-btn">Coming Soon</div>
+      </div>
+
+      <div class="toggle-section" onclick="toggleChapter('other')">📚 Other</div>
+      <div id="other" class="chapter-list hidden">
+        <div class="card-btn">Coming Soon</div>
+      </div>
+    </div>
+
+    <!-- About -->
+    <div id="about" class="section">
+      <h3>About</h3>
+      <div class="card-btn">🚀 Welcome to the future-ready JEE 2026 prep platform.</div>
+      <div class="card-btn">🤣 Just a bunch of nerds making things cooler for your studies!</div>
+    </div>
+
+    <!-- Profile -->
+    <div id="profile" class="section">
+      <h3>Your Profile</h3>
+      <div class="card-btn">👤 Name: <span id="studentName">Student</span></div>
+      <input type="text" id="nameInput" placeholder="Enter your name" />
+      <button class="btn" onclick="saveName()">Save</button>
+    </div>
+  </div>
+
+  <!-- Bottom Navigation -->
+  <div class="bottom-nav">
+    <div class="nav-item active" onclick="switchTab('subjects', this)">Subjects</div>
+    <div class="nav-item" onclick="switchTab('about', this)">About</div>
+    <div class="nav-item" onclick="switchTab('profile', this)">Profile</div>
+  </div>
+
+  <script>
+    function switchTab(tabId, element) {
+      document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
+      document.getElementById(tabId).classList.add('active');
+      document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+      element.classList.add('active');
+    }
+
+    function toggleMode() {
+      document.body.classList.toggle("dark");
+    }
+
+    function toggleChapter(id) {
+      const elem = document.getElementById(id);
+      elem.classList.toggle("hidden");
+    }
+
+    function openLink(url) {
+      window.open(url, '_blank');
+    }
+
+    function saveName() {
+      const name = document.getElementById('nameInput').value;
+      if (name.trim() !== "") {
+        document.getElementById('studentName').textContent = name;
+      }
+    }
+  </script>
+</body>
+</html>
