@@ -44,6 +44,7 @@ nav.bottom-nav{
 .bottom-nav button{
   background:none;border:none;color:cyan;font-size:0.8rem;cursor:pointer;
   display:flex;flex-direction:column;align-items:center;
+  transition:color 0.3s;
 }
 .bottom-nav button:hover{color:#0ff;}
 
@@ -77,6 +78,85 @@ nav.bottom-nav{
   border-radius:6px;font-weight:bold;cursor:pointer;
 }
 .vpn-box button:hover{background:#0ff;}
+
+/* Neon Background Animation */
+#fallbackMessage{
+  display:none;position:absolute;top:0;left:0;right:0;bottom:0;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:2rem;text-align:center;
+  background:linear-gradient(270deg,#0b0f1a,#0f1c2e,#0b0f1a);
+  background-size:400% 400%;
+  animation:backgroundShift 15s ease infinite;
+}
+@keyframes backgroundShift{
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
+}
+
+/* Neon Title + Tagline */
+.fallback-title{
+  font-family:'Orbitron',sans-serif;
+  font-size:2rem;
+  color:cyan;
+  text-shadow:0 0 15px cyan, 0 0 30px #0ff;
+  animation:colorShift 4s linear infinite, fadeInDown 1s ease forwards;
+  margin-bottom:10px;
+}
+.fallback-subtitle{
+  font-size:1.1rem;
+  color:#0ff;
+  opacity:0.8;
+  animation:fadeInDown 1s ease forwards;
+  animation-delay:0.4s;
+  margin-bottom:2rem;
+}
+@keyframes colorShift{
+  0%{color:cyan;text-shadow:0 0 10px cyan;}
+  50%{color:#0ff;text-shadow:0 0 20px #0ff,0 0 40px cyan;}
+  100%{color:cyan;text-shadow:0 0 10px cyan;}
+}
+@keyframes fadeInDown{
+  from{opacity:0;transform:translateY(-20px);}
+  to{opacity:1;transform:translateY(0);}
+}
+
+/* Fallback Options (rows) */
+.fallback-option{
+  width:100%;max-width:450px;
+  background:rgba(0,0,0,0.9);
+  border:2px solid cyan;
+  border-radius:15px;
+  padding:1.8rem;
+  margin:1rem 0;
+  text-align:center;
+  color:cyan;
+  font-size:1.4rem;
+  font-family:'Orbitron',sans-serif;
+  box-shadow:0 0 20px cyan;
+  cursor:pointer;
+  transition:transform 0.3s, box-shadow 0.3s;
+  animation:fadeInUp 0.8s ease forwards;
+}
+.fallback-option span{
+  display:block;
+  font-size:1rem;
+  color:#0ff;
+  margin-top:8px;
+}
+.fallback-option:hover{
+  transform:scale(1.07) rotate(-1deg);
+  box-shadow:0 0 35px cyan,0 0 50px #0ff;
+  animation:pulse 1.2s infinite alternate;
+}
+@keyframes fadeInUp{
+  from{opacity:0;transform:translateY(30px);}
+  to{opacity:1;transform:translateY(0);}
+}
+@keyframes pulse{
+  from{box-shadow:0 0 15px cyan;}
+  to{box-shadow:0 0 35px #0ff;}
+}
 </style>
 </head>
 <body>
@@ -91,7 +171,17 @@ nav.bottom-nav{
 
 <!-- Main -->
 <main>
-  <iframe id="mainIframe" src="https://studystark.site/newpw/"></iframe>
+  <iframe id="mainIframe"></iframe>
+  <div id="fallbackMessage">
+    <div class="fallback-title">🚀 Welcome to GenZ SmartLearn</div>
+    <div class="fallback-subtitle">Your futuristic learning hub ✨</div>
+    <div class="fallback-option" style="animation-delay:0.8s" onclick="openInNewTab()">
+      🚀 Let’s Study<br><span>Click me to start learning</span>
+    </div>
+    <div class="fallback-option" style="animation-delay:1.2s" onclick="openTelegram()">
+      📢 Join us on Telegram<br><span>Stay updated with latest info</span>
+    </div>
+  </div>
 </main>
 
 <!-- About -->
@@ -121,6 +211,37 @@ nav.bottom-nav{
 </div>
 
 <script>
+const siteURL = "https://studystark.site/newpw/";
+const telegramURL = "https://t.me/jee2026pwbatch";
+
+// Try to load in iframe
+function loadHome(){
+  const iframe = document.getElementById('mainIframe');
+  iframe.style.display="block";
+  document.getElementById('fallbackMessage').style.display="none";
+  iframe.src = siteURL;
+  document.getElementById('aboutOverlay').style.display='none';
+
+  // Check if iframe is blocked
+  setTimeout(()=>{
+    try {
+      let test = iframe.contentWindow.location.href; 
+    } catch(e){
+      iframe.style.display="none";
+      document.getElementById('fallbackMessage').style.display="flex";
+    }
+  }, 1500);
+}
+
+// Open in new tab fallback
+function openInNewTab(){
+  window.open(siteURL, "_blank");
+}
+// Open telegram
+function openTelegram(){
+  window.open(telegramURL, "_blank");
+}
+
 // Theme toggle with persistence
 function toggleTheme(){
   document.body.classList.toggle('light-mode');
@@ -133,10 +254,6 @@ function toggleAbout(){
   const about=document.getElementById('aboutOverlay');
   about.style.display=(about.style.display==='block')?'none':'block';
 }
-function loadHome(){
-  document.getElementById('mainIframe').src="https://studystark.site/newpw/";
-  document.getElementById('aboutOverlay').style.display='none';
-}
 
 // VPN Popup - Show only once per user/device
 function showVPNModal(){
@@ -148,7 +265,10 @@ function closeVPNModal(){
   document.getElementById('vpnModal').style.display='none';
   localStorage.setItem('vpnShown','true');
 }
-window.addEventListener('load',()=>{setTimeout(showVPNModal,500);});
+window.addEventListener('load',()=>{
+  setTimeout(showVPNModal,500);
+  loadHome();
+});
 </script>
 
 </body>
